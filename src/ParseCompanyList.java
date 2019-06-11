@@ -2,11 +2,11 @@ package dev.oneeb.rssfeedactivity;
 
 import java.util.ArrayList;
 
-public class ParseFeedList {
+public class ParseCompanyList {
 
     private String jsonText;
 
-    public ParseFeedList(String jsonText) {
+    public ParseCompanyList(String jsonText) {
         this.jsonText = jsonText;
     }
 

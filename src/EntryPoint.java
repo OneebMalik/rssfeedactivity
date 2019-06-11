@@ -16,15 +16,20 @@ public class EntryPoint {
 	public static void main(String[] args) {
 		String url = "https://www.npr.org/rss/podcast.php?id=510298";
 
-		System.out.println("RSS Feed Activity v1.0.0 by Oneeb Malik");
-		System.out.println("--------------------------------");
+		System.out.println("\n\nRSS Feed Activity v1.0.0 by Oneeb Malik");
+		System.out.println("----------------------------------------");
+
+		String fileText = "";
 
 		try {
-			getCompanyListFromFile();
+			fileText = getCompanyListFromFile();
 		} catch(IOException e) {
 			e.printStackTrace();
 			return;
 		}
+
+		ParseCompanyList parseCompanyList = new ParseCompanyList(fileText);
+		parsedCompanyList = parseCompanyList.parseJson();
 
 		try {
 			getRssData(url);
@@ -33,11 +38,8 @@ public class EntryPoint {
 		}
 	}
 
-	public static void getCompanyListFromFile() throws IOException {
-
+	public static String getCompanyListFromFile() throws IOException {
 		Scanner scanner;
-		
-
 		String fileText = "";
 		
 		while (fileText == "") {
@@ -51,9 +53,8 @@ public class EntryPoint {
 				System.err.println("\nError! Invalid file. Try again.\n");
 			}
 		}
-		
-		ParseFeedList list = new ParseFeedList(fileText);
-		parsedCompanyList = list.parseJson();
+
+		return fileText;
 	}
 
 	public static void getRssData(String url) throws SAXException {
