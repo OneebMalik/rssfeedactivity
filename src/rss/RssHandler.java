@@ -1,5 +1,9 @@
 package dev.oneeb.rssfeedactivity;
  
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
+import java.util.Date;
+
 import java.util.ArrayList;
 import java.util.Stack;
  
@@ -26,6 +30,7 @@ public class RssHandler extends DefaultHandler {
 
         if (qName.equals("title") || qName.equals("link") || qName.equals("description") 
             || qName.equals("lastbuilddate") || qName.equals("pubdate")) {
+            
             this.currentElement = qName;
         }
     }
@@ -35,35 +40,45 @@ public class RssHandler extends DefaultHandler {
         throws SAXException {
 
         String value = new String(ch, start, length).trim();
+        SimpleDateFormat rssDateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z");
  
         if (value.length() == 0 || this.currentElement == null) {
             return;
         }
  
-        if (this.currentElement == "title" && this.feed.getTitle() == "") {
+        if (this.currentElement.equals("title") && this.feed.getTitle().equals("")) {
             this.feed.setTitle(value);
         }
 
-        if (this.currentElement == "link" && this.feed.getLink() == "") {
+        if (this.currentElement.equals("link") && this.feed.getLink().equals("")) {
             this.feed.setLink(value);
         }
 
-        if (this.currentElement == "description" && this.feed.getDescription() == "") {
+        if (this.currentElement.equals("description") && this.feed.getDescription().equals("")) {
             this.feed.setDescription(value);
         }
 
-        // if (this.currentElement == "lastbuilddate" && this.feed.getLastBuildDate() == "") {
-        //     this.feed.setLastBuildDate(value);
-        // }
+        if (this.currentElement.equals("lastbuilddate") && this.feed.getLastBuildDate() == null) {
+            try {
+                Date formattedDate = rssDateFormat.parse(value);
+                this.feed.setLastBuildDate(formattedDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
 
-        // if (this.currentElement == "pubdate" && this.feed.getPubDate() == "") {
-        //     this.feed.setPubDate(value);
-        // }
+        if (this.currentElement.equals("pubdate") && this.feed.getPubDate() == null) {
+            try {
+                Date formattedDate = rssDateFormat.parse(value);
+                this.feed.setPubDate(formattedDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
     public void endDocument() {
-        System.out.println("END: ");
         System.out.println(this.feed.toString());
     }
 
