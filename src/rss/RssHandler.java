@@ -2,7 +2,9 @@ package dev.oneeb.rssfeedactivity;
  
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
-import java.util.Date;
+
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
 import java.util.Stack;
@@ -40,7 +42,7 @@ public class RssHandler extends DefaultHandler {
         throws SAXException {
 
         String value = new String(ch, start, length).trim();
-        SimpleDateFormat rssDateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z");
+        DateTimeFormatter rssDateFormat = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss Z");
  
         if (value.length() == 0 || this.currentElement == null) {
             return;
@@ -59,21 +61,13 @@ public class RssHandler extends DefaultHandler {
         }
 
         if (this.currentElement.equals("lastbuilddate") && this.feed.getLastBuildDate() == null) {
-            try {
-                Date formattedDate = rssDateFormat.parse(value);
-                this.feed.setLastBuildDate(formattedDate);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            OffsetDateTime formattedDate = OffsetDateTime.parse(value, rssDateFormat);
+            this.feed.setLastBuildDate(formattedDate);
         }
 
         if (this.currentElement.equals("pubdate") && this.feed.getPubDate() == null) {
-            try {
-                Date formattedDate = rssDateFormat.parse(value);
-                this.feed.setPubDate(formattedDate);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            OffsetDateTime formattedDate = OffsetDateTime.parse(value, rssDateFormat);
+            this.feed.setPubDate(formattedDate);
         }
     }
 

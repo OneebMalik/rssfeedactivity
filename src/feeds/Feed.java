@@ -1,19 +1,20 @@
 package dev.oneeb.rssfeedactivity;
 
 import java.util.List;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class Feed {
 
 	// Required RSS channel elements (from RSS spec https://cyber.harvard.edu/rss/rss.html).
-	private String title;
-	private String link;
-	private String description;
+	protected String title;
+	protected String link;
+	protected String description;
 
 	// Optional RSS channel elements (from RSS spec https://cyber.harvard.edu/rss/rss.html).
-	private Date lastBuildDate;
-	private Date pubDate;
+	protected OffsetDateTime lastBuildDate;
+	protected OffsetDateTime pubDate;
 
 	public Feed() {
 		this.title = "";
@@ -35,11 +36,11 @@ public class Feed {
 		this.description = description;
 	}
 
-	public void setLastBuildDate(Date lastBuildDate) {
+	public void setLastBuildDate(OffsetDateTime lastBuildDate) {
 		this.lastBuildDate = lastBuildDate;
 	}
 
-	public void setPubDate(Date pubDate) {
+	public void setPubDate(OffsetDateTime pubDate) {
 		this.pubDate = pubDate;
 	} 
 
@@ -55,11 +56,11 @@ public class Feed {
 		return this.description;
 	}
 
-	public Date getLastBuildDate() {
+	public OffsetDateTime getLastBuildDate() {
 		return this.lastBuildDate;
 	}
 
-	public Date getPubDate() {
+	public OffsetDateTime getPubDate() {
 		return this.pubDate;
 	}
 
