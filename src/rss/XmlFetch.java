@@ -22,7 +22,7 @@ public class XmlFetch {
         } catch(ParserConfigurationException e) {
             e.printStackTrace();
         }
-        
+
         getXmlByUrl(url, handler);
     }
 

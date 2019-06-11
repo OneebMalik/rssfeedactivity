@@ -19,7 +19,11 @@ public class FeedActivity extends Feed {
 
     public boolean feedWasActive(int days) {
         LocalDate currentDate = LocalDate.now();
-        return true;
+        Period period = Period.between(this.lastBuildDate.toLocalDate(), currentDate);
+
+        int daysSinceActive = period.getDays();
+
+        return daysSinceActive <= days ? true : false;
     }
 
 }

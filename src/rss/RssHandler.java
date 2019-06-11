@@ -71,11 +71,6 @@ public class RssHandler extends DefaultHandler {
         }
     }
 
-    @Override
-    public void endDocument() {
-        System.out.println(this.feed.toString());
-    }
-
     public Feed getFeed() {
         return this.feed;
     }
