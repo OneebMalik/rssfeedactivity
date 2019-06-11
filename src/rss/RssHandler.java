@@ -21,7 +21,7 @@ public class RssHandler extends DefaultHandler {
     @Override
     public void startElement(String uri, String localName, String qName,
         Attributes attributes) throws SAXException {
-            
+
         qName = qName.toLowerCase();
 
         if (qName.equals("title") || qName.equals("link") || qName.equals("description")) {
@@ -35,8 +35,7 @@ public class RssHandler extends DefaultHandler {
 
         String value = new String(ch, start, length).trim();
  
-        if (value.length() == 0 || this.currentElement == null)
-        {
+        if (value.length() == 0 || this.currentElement == null) {
             return;
         }
  

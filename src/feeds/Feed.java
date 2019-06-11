@@ -5,11 +5,12 @@ import java.util.ArrayList;
 
 public class Feed {
 
-	// Required RSS channel elements.
+	// Required RSS channel elements (from RSS spec https://cyber.harvard.edu/rss/rss.html).
 	private String title;
 	private String link;
 	private String description;
 
+	// Optional RSS channel elements (from RSS spec https://cyber.harvard.edu/rss/rss.html).
 	private String lastBuildDate;
 
 	public Feed() {

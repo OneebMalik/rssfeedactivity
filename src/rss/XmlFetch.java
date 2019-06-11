@@ -8,17 +8,24 @@ import java.io.*;
 
 public class XmlFetch {
 
-    public XmlFetch(String url, DefaultHandler handler) {
-        
-        XMLReader reader = null;
+    private XMLReader reader;
 
+    // Constructor for getting XML data by url.
+    public XmlFetch(String url, DefaultHandler handler) throws SAXException {
         try {
-            reader = XMLReaderFactory.createXMLReader();
-            reader.setContentHandler(handler);
-            reader.parse(new InputSource(new URL(url).openStream()));
-        } catch(Exception e) {
-            System.err.println(e);
+            this.reader = XMLReaderFactory.createXMLReader();
+        } catch(SAXException e) {
+            e.printStackTrace();
         }
+        getXmlByUrl(url, handler);
     }
 
+    public void getXmlByUrl(String url, DefaultHandler handler) throws SAXException {
+        try {
+            this.reader.setContentHandler(handler);
+            this.reader.parse(new InputSource(new URL(url).openStream()));
+        } catch(SAXException e) {
+            e.printStackTrace();
+        }
+    }
 }
