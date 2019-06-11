@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class EntryPoint {
 
@@ -14,12 +15,14 @@ public class EntryPoint {
 
 	public static void main(String[] args) {
 		String url = "https://www.npr.org/rss/podcast.php?id=510298";
-		String filename = "oneeb.jsons";
+
+		System.out.println("RSS Feed Activity v1.0.0 by Oneeb Malik");
+		System.out.println("--------------------------------");
 
 		try {
-			getCompanyListFromFile(filename);
+			getCompanyListFromFile();
 		} catch(IOException e) {
-			System.err.println("Error! " + e);
+			e.printStackTrace();
 			return;
 		}
 
@@ -30,13 +33,23 @@ public class EntryPoint {
 		}
 	}
 
-	public static void getCompanyListFromFile(String filename) throws IOException {
+	public static void getCompanyListFromFile() throws IOException {
+
+		Scanner scanner;
+		
+
 		String fileText = "";
 		
-		try {
-			fileText = new String(Files.readAllBytes(Paths.get(filename)));
-		} catch(IOException e) {
-			e.printStackTrace();
+		while (fileText == "") {
+			System.out.print("\nEnter file name with company and url data: ");
+			scanner = new Scanner(System.in);
+			String filename = scanner.nextLine();
+			
+			try {
+				fileText = new String(Files.readAllBytes(Paths.get(filename)));
+			} catch(IOException e) {
+				System.err.println("\nError! Invalid file. Try again.\n");
+			}
 		}
 		
 		ParseFeedList list = new ParseFeedList(fileText);
