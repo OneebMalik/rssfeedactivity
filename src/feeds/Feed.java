@@ -12,6 +12,7 @@ public class Feed {
 
 	// Optional RSS channel elements (from RSS spec https://cyber.harvard.edu/rss/rss.html).
 	private String lastBuildDate;
+	private String pubDate;
 
 	public Feed() {
 		this.title = "";

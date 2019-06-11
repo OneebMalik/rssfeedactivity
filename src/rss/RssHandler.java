@@ -24,7 +24,8 @@ public class RssHandler extends DefaultHandler {
 
         qName = qName.toLowerCase();
 
-        if (qName.equals("title") || qName.equals("link") || qName.equals("description")) {
+        if (qName.equals("title") || qName.equals("link") || qName.equals("description") 
+            || qName.equals("lastbuilddate") || qName.equals("pubdate")) {
             this.currentElement = qName;
         }
     }
@@ -50,6 +51,14 @@ public class RssHandler extends DefaultHandler {
         if (this.currentElement == "description" && this.feed.getDescription() == "") {
             this.feed.setDescription(value);
         }
+
+        // if (this.currentElement == "lastbuilddate" && this.feed.getLastBuildDate() == "") {
+        //     this.feed.setLastBuildDate(value);
+        // }
+
+        // if (this.currentElement == "pubdate" && this.feed.getPubDate() == "") {
+        //     this.feed.setPubDate(value);
+        // }
     }
 
     @Override
