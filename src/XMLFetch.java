@@ -6,13 +6,18 @@ import org.xml.sax.helpers.*;
 import java.net.*;
 import java.io.*;
 
-public class XmlFetch {
+enum XMLInputType{ 
+    URL, FILE;
+} 
+  
+
+public class XMLFetch {
 
     private XMLReader reader;
     private SAXParserFactory saxParserFactory;
 
     // Constructor for getting XML data by url.
-    public XmlFetch(String url, DefaultHandler handler) throws SAXException {
+    public XMLFetch(XMLInputType inputType, String xmlSource, DefaultHandler handler) throws SAXException {
         try {
             saxParserFactory = SAXParserFactory.newInstance();
             SAXParser parser = saxParserFactory.newSAXParser();
@@ -23,10 +28,16 @@ public class XmlFetch {
             e.printStackTrace();
         }
 
-        getXmlByUrl(url, handler);
+        switch(inputType) {
+            case URL:
+                getXMLByUrl(xmlSource, handler);
+                break;
+            case FILE:
+                getXMLByFile(xmlSource, handler);
+        }
     }
 
-    public void getXmlByUrl(String url, DefaultHandler handler) throws SAXException {
+    public void getXMLByUrl(String url, DefaultHandler handler) throws SAXException {
         try {
             this.reader.setContentHandler(handler);
             this.reader.parse(new InputSource(new URL(url).openStream()));
@@ -37,5 +48,10 @@ public class XmlFetch {
         } catch(IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void getXMLByFile(String filename, DefaultHandler handler) throws SAXException {
+        this.reader.setContentHandler(handler);
+        this.reader.parse(filename);
     }
 }

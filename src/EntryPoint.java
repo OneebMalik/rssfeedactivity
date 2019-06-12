@@ -8,10 +8,11 @@ import java.nio.file.Paths;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.Map;
 
 public class EntryPoint {
 
-	public static List<CompanyFeed> parsedCompanyList;
+	public static List<Map<String, List<String>>> parsedCompanyList;
 
 	public static void main(String[] args) {
 		String url = "https://www.npr.org/rss/podcast.php?id=510298";
@@ -28,8 +29,8 @@ public class EntryPoint {
 			return;
 		}
 
-		ParseCompanyList parseCompanyList = new ParseCompanyList(fileText);
-		parsedCompanyList = parseCompanyList.parseJson();
+		// CompanyListHandler companyListHandler = new CompanyListHandler(fileText);
+		// parsedCompanyList = companyListHandler.parseXML();
 
 		try {
 			getRssData(url);
@@ -44,11 +45,11 @@ public class EntryPoint {
 		
 		while (fileText == "") {
 			System.out.print("\nEnter file name with company and url data: ");
-			scanner = new Scanner(System.in);
-			String filename = scanner.nextLine();
+			// scanner = new Scanner(System.in);
+			// String filename = scanner.nextLine();
 			
 			try {
-				fileText = new String(Files.readAllBytes(Paths.get(filename)));
+				fileText = new String(Files.readAllBytes(Paths.get("oneeb.xml")));
 			} catch(IOException e) {
 				System.err.println("\nError! Invalid file. Try again.\n");
 			}
@@ -62,9 +63,9 @@ public class EntryPoint {
 		FeedActivity feed;
 
 		try {
-			XmlFetch xmlFetch = new XmlFetch(url, handler);
+			XMLFetch xmlFetch = new XMLFetch(XMLInputType.URL, url, handler);
 			feed = new FeedActivity(handler.getFeed());
-			System.out.println("RETURNED: " + feed.feedWasActive(3));
+			System.out.println("FEED WAS ACTIVE: " + feed.feedWasActive(3));
 		} catch(SAXException e) {
 			e.printStackTrace();
 		}

@@ -1,0 +1,13 @@
+<list>
+	<company name="test">
+		<url>1</url>
+		<url>2</url>
+		<url>4</url>
+	</company>
+
+	<company name="sample">
+		<url>8</url>
+		<url>16</url>
+		<url>32</url>
+	</company>
+</list>
