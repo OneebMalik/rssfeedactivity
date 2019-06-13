@@ -20,7 +20,9 @@ public class EntryPoint {
 	public static void main(String[] args) {
 		int daysAgo = -1;
 		Scanner scanner = new Scanner(System.in);
-		boolean validDays = false;
+		boolean validNumberOfDaysEntered = false;
+		// For company list numbering.
+		int listCount = 0;
 
 		System.out.println("\n\nRSS Feed Activity v1.0.0 by Oneeb Malik");
 		System.out.println("----------------------------------------");
@@ -35,14 +37,14 @@ public class EntryPoint {
 		System.out.print("\nEnter the number of days to check for company RSS feed activity: ");
 		try {
 			daysAgo = scanner.nextInt();
-			validDays = true;
+			validNumberOfDaysEntered = true;
 		} catch(InputMismatchException e) {
-			validDays = false;
+			validNumberOfDaysEntered = false;
 			scanner.next();
 		}
 
-		while(daysAgo < 0 || !validDays) {
-			if (!validDays) {
+		while(daysAgo < 0 || !validNumberOfDaysEntered) {
+			if (!validNumberOfDaysEntered) {
 				System.err.println(ANSI_RED + "\nError! Enter an integer." + ANSI_RESET);
 			} else if (daysAgo < 0) {
 				System.err.println(ANSI_RED + "\nError! Number of days is too low. Try again." + ANSI_RESET);
@@ -52,17 +54,15 @@ public class EntryPoint {
 			
 			try {
 				daysAgo = scanner.nextInt();
-				validDays = true;
+				validNumberOfDaysEntered = true;
 			} catch(InputMismatchException e) {
-				validDays = false;
+				validNumberOfDaysEntered = false;
 				scanner.next();
 			}
 		}
 
 		System.out.println("\n\nCompanies that have had no activity in the past " + daysAgo + " day(s)");
-		System.out.println("-----------------------------------------------------");
-
-		int count = 0;
+		System.out.println("---------------------------------------------------------");
 
 		for (String companyName : parsedCompanyList.keySet()) {
 			boolean wasActive = false;
@@ -76,8 +76,8 @@ public class EntryPoint {
 			}
 
 			if (!wasActive) {
-				count++;
-				System.out.print("\n" + count + ") ");
+				listCount++;
+				System.out.print("\n" + listCount + ") ");
 				System.out.print(companyName + "\n");
 			}
 		}

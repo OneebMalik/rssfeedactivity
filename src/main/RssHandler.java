@@ -3,7 +3,7 @@ package dev.oneeb.rssfeedactivity;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -64,13 +64,13 @@ public class RssHandler extends DefaultHandler {
 
         if (this.currentElement.equals("lastbuilddate") && this.feed.getLastBuildDate() == null) {
 
-            LocalDate formattedDate = null;
+            LocalDateTime formattedDate = null;
 
             try{
-                formattedDate = LocalDate.parse(value, rssDateFormatz);
+                formattedDate = LocalDateTime.parse(value, rssDateFormatz);
             } catch(DateTimeParseException e) {
                 try {
-                    formattedDate = LocalDate.parse(value, rssDateFormatZ);
+                    formattedDate = LocalDateTime.parse(value, rssDateFormatZ);
                 } catch(DateTimeParseException ex) {
                     ex.printStackTrace();
                 }
@@ -80,13 +80,13 @@ public class RssHandler extends DefaultHandler {
         }
 
         if (this.currentElement.equals("pubdate") && this.feed.getPubDate() == null) {
-            LocalDate formattedDate = null;
+            LocalDateTime formattedDate = null;
 
             try{
-                formattedDate = LocalDate.parse(value, rssDateFormatz);
+                formattedDate = LocalDateTime.parse(value, rssDateFormatz);
             } catch(DateTimeParseException e) {
                 try {
-                    formattedDate = LocalDate.parse(value, rssDateFormatZ);
+                    formattedDate = LocalDateTime.parse(value, rssDateFormatZ);
                 } catch(DateTimeParseException ex) {
                     ex.printStackTrace();
                 }

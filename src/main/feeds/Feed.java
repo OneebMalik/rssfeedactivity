@@ -1,7 +1,7 @@
 package dev.oneeb.rssfeedactivity;
 
 import java.util.List;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -13,8 +13,8 @@ public class Feed {
 	protected String description;
 
 	// Optional RSS channel elements (from RSS spec https://cyber.harvard.edu/rss/rss.html).
-	protected LocalDate lastBuildDate;
-	protected LocalDate pubDate;
+	protected LocalDateTime lastBuildDate;
+	protected LocalDateTime pubDate;
 
 	public Feed() {
 		this.title = "";
@@ -36,11 +36,11 @@ public class Feed {
 		this.description = description;
 	}
 
-	public void setLastBuildDate(LocalDate lastBuildDate) {
+	public void setLastBuildDate(LocalDateTime lastBuildDate) {
 		this.lastBuildDate = lastBuildDate;
 	}
 
-	public void setPubDate(LocalDate pubDate) {
+	public void setPubDate(LocalDateTime pubDate) {
 		this.pubDate = pubDate;
 	} 
 
@@ -56,11 +56,11 @@ public class Feed {
 		return this.description;
 	}
 
-	public LocalDate getLastBuildDate() {
+	public LocalDateTime getLastBuildDate() {
 		return this.lastBuildDate;
 	}
 
-	public LocalDate getPubDate() {
+	public LocalDateTime getPubDate() {
 		return this.pubDate;
 	}
 
