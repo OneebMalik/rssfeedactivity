@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 public class FeedTest {
 
-    @Test
+    @Test 
     public void testInitialClassPropertyValues() {
         Feed feed = new Feed();
 
@@ -51,5 +51,27 @@ public class FeedTest {
 
         assertNotEquals(feed.getLastBuildDate(), nowAgain);
         assertNotEquals(feed.getPubDate(), nowAgain);
+    }
+
+    @Test
+    public void testToString() {
+        Feed feed = new Feed();
+        
+        feed.setTitle("Test Title");
+        feed.setLink("Test Link");
+        feed.setDescription("Test Description");
+
+        LocalDateTime now = LocalDateTime.now();
+
+        feed.setLastBuildDate(now);
+        feed.setPubDate(now);
+
+        String testString = "Feed: {\n\t title: Test Title"
+        + "\n\t link: Test Link"
+        + "\n\t description: Test Description" 
+        + "\n\t lastBuildDate: " + now
+        + "\n\t pubDate: " + now;
+
+        assertEquals(feed.toString(), testString);
     }
 }
