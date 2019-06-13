@@ -91,7 +91,6 @@ public class RssHandler extends DefaultHandler {
                     ex.printStackTrace();
                 }
             }
-            
             this.feed.setPubDate(formattedDate);
         }
     }

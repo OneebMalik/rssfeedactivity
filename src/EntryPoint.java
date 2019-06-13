@@ -59,9 +59,10 @@ public class EntryPoint {
 			}
 		}
 
-		System.out.println("\nCompanies that have had no activity in the past " + daysAgo + " day(s)");
-		System.out.println("---------------------");
-		
+		System.out.println("\n\nCompanies that have had no activity in the past " + daysAgo + " day(s)");
+		System.out.println("-----------------------------------------------------");
+
+		int count = 0;
 
 		for (String companyName : parsedCompanyList.keySet()) {
 			boolean wasActive = false;
@@ -75,9 +76,9 @@ public class EntryPoint {
 			}
 
 			if (!wasActive) {
-				System.out.println("\nnot active: " + companyName);
-			} else {
-				System.out.println("\nactive: " + companyName);
+				count++;
+				System.out.print("\n" + count + ") ");
+				System.out.print(companyName + "\n");
 			}
 		}
 	}
