@@ -14,7 +14,7 @@ Rss Feed Activity
 4. You can use the included `companies.xml` file in the root project directory as your input, or create your own. Just make sure the XML file is well-formed and complies with the input file requirements.
 
 ### Testing Instructions
-⋅⋅* Type `ant test` in your terminal (making sure you're in the root project directory) to run the uncluded JUnit tests.
+* Type `ant test` in your terminal (making sure you're in the root project directory) to run the uncluded JUnit tests.
 
 ### Input File Requirements
 1. The input file must be a well-formed XML file.
