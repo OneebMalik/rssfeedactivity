@@ -3,13 +3,14 @@ Rss Feed Activity
 
 ### Build Requirements
 1. Java SE Development Kit 8 or higher
-2. Apache Ant
-3. Preferably MacOS (where it has been tested fully).
+2. Java SE Runtime Environment 8 or higher
+3. Apache Ant
+4. Preferably MacOS (where it has been tested fully).
 
 ### Build Instructions
 1. Download files to your local machine.
 2. In the root directory of the project, enter `ant clean compile jar` in your terminal of choice to create a compiled jar file.
-3. To run, type `ant run`.
+3. To run, type `java -jar build/jar/RssFeedActivity.jar` if you are in the project root.
 4. You can use the included `companies.xml` file in the root project directory as your input, or create your own. Just make sure the XML file is well-formed and complies with the input file requirements.
 
 ### Testing Instructions
