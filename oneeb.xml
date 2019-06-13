@@ -1,13 +1,10 @@
 <list>
 	<company name="test">
-		<url>1</url>
-		<url>2</url>
-		<url>4</url>
+		<url>https://www.nytimes.com/svc/collections/v1/publish/www.nytimes.com/section/well/rss.xml</url>
+		<url>https://dianerehm.org/rss/npr/dr_podcast.xml</url>
 	</company>
 
 	<company name="sample">
-		<url>8</url>
-		<url>16</url>
-		<url>32</url>
+		<url>https://www.feedforall.com/sample.xml</url>
 	</company>
 </list>

@@ -3,10 +3,11 @@ package dev.oneeb.rssfeedactivity;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Stack;
  
 import org.xml.sax.Attributes;
@@ -42,8 +43,9 @@ public class RssHandler extends DefaultHandler {
         throws SAXException {
 
         String value = new String(ch, start, length).trim();
-        DateTimeFormatter rssDateFormat = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss Z");
- 
+        DateTimeFormatter rssDateFormatZ = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss Z", Locale.US);
+        DateTimeFormatter rssDateFormatz = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss z");
+
         if (value.length() == 0 || this.currentElement == null) {
             return;
         }
@@ -61,12 +63,35 @@ public class RssHandler extends DefaultHandler {
         }
 
         if (this.currentElement.equals("lastbuilddate") && this.feed.getLastBuildDate() == null) {
-            OffsetDateTime formattedDate = OffsetDateTime.parse(value, rssDateFormat);
+
+            LocalDate formattedDate = null;
+
+            try{
+                formattedDate = LocalDate.parse(value, rssDateFormatz);
+            } catch(DateTimeParseException e) {
+                try {
+                    formattedDate = LocalDate.parse(value, rssDateFormatZ);
+                } catch(DateTimeParseException ex) {
+                    ex.printStackTrace();
+                }
+            }
+
             this.feed.setLastBuildDate(formattedDate);
         }
 
         if (this.currentElement.equals("pubdate") && this.feed.getPubDate() == null) {
-            OffsetDateTime formattedDate = OffsetDateTime.parse(value, rssDateFormat);
+            LocalDate formattedDate = null;
+
+            try{
+                formattedDate = LocalDate.parse(value, rssDateFormatz);
+            } catch(DateTimeParseException e) {
+                try {
+                    formattedDate = LocalDate.parse(value, rssDateFormatZ);
+                } catch(DateTimeParseException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            
             this.feed.setPubDate(formattedDate);
         }
     }

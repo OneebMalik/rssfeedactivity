@@ -7,7 +7,7 @@ import java.net.*;
 import java.io.*;
 
 enum XMLInputType{ 
-    URL, FILE;
+    URL, STRING;
 } 
   
 
@@ -32,8 +32,8 @@ public class XMLFetch {
             case URL:
                 getXMLByUrl(xmlSource, handler);
                 break;
-            case FILE:
-                getXMLByFile(xmlSource, handler);
+            case STRING:
+                getXMLByString(xmlSource, handler);
         }
     }
 
@@ -50,8 +50,12 @@ public class XMLFetch {
         }
     }
 
-    public void getXMLByFile(String filename, DefaultHandler handler) throws SAXException {
+    public void getXMLByString(String rawXML, DefaultHandler handler) throws SAXException {
         this.reader.setContentHandler(handler);
-        this.reader.parse(filename);
+        try {
+            this.reader.parse(new InputSource(new StringReader(rawXML)));
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
     }
 }

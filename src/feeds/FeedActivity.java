@@ -1,7 +1,8 @@
 package dev.oneeb.rssfeedactivity;
 
 import java.text.SimpleDateFormat;
-import java.time.*;
+import java.time.LocalDate;
+import java.time.Period;
 
 public class FeedActivity extends Feed {
     
@@ -18,8 +19,11 @@ public class FeedActivity extends Feed {
     }
 
     public boolean feedWasActive(int days) {
+
+        LocalDate activeDate = this.lastBuildDate != null ? this.lastBuildDate : this.pubDate;
+
         LocalDate currentDate = LocalDate.now();
-        Period period = Period.between(this.lastBuildDate.toLocalDate(), currentDate);
+        Period period = Period.between(activeDate, currentDate);
 
         int daysSinceActive = period.getDays();
 

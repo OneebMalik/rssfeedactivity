@@ -5,69 +5,121 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Map;
 
 public class EntryPoint {
 
-	public static List<Map<String, List<String>>> parsedCompanyList;
+	public static final String ANSI_RESET = "\u001B[0m";
+	public static final String ANSI_RED = "\u001B[31m";
+
+	public static Map<String, List<String>> parsedCompanyList = null;
 
 	public static void main(String[] args) {
-		String url = "https://www.npr.org/rss/podcast.php?id=510298";
+		int daysAgo = -1;
+		Scanner scanner = new Scanner(System.in);
+		boolean validDays = false;
 
 		System.out.println("\n\nRSS Feed Activity v1.0.0 by Oneeb Malik");
 		System.out.println("----------------------------------------");
 
-		String fileText = "";
-
 		try {
-			fileText = getCompanyListFromFile();
+			parsedCompanyList = getCompanyListFromFile();
 		} catch(IOException e) {
 			e.printStackTrace();
 			return;
 		}
 
-		// CompanyListHandler companyListHandler = new CompanyListHandler(fileText);
-		// parsedCompanyList = companyListHandler.parseXML();
-
+		System.out.print("\nEnter the number of days to check for company RSS feed activity: ");
 		try {
-			getRssData(url);
-		} catch(SAXException e) {
-			e.printStackTrace();
+			daysAgo = scanner.nextInt();
+			validDays = true;
+		} catch(InputMismatchException e) {
+			validDays = false;
+			scanner.next();
 		}
-	}
 
-	public static String getCompanyListFromFile() throws IOException {
-		Scanner scanner;
-		String fileText = "";
-		
-		while (fileText == "") {
-			System.out.print("\nEnter file name with company and url data: ");
-			// scanner = new Scanner(System.in);
-			// String filename = scanner.nextLine();
+		while(daysAgo < 0 || !validDays) {
+			if (!validDays) {
+				System.err.println(ANSI_RED + "\nError! Enter an integer." + ANSI_RESET);
+			} else if (daysAgo < 0) {
+				System.err.println(ANSI_RED + "\nError! Number of days is too low. Try again." + ANSI_RESET);
+			}
+
+			System.out.print("\nEnter the number of days to check for company RSS feed activity: ");
 			
 			try {
-				fileText = new String(Files.readAllBytes(Paths.get("oneeb.xml")));
-			} catch(IOException e) {
-				System.err.println("\nError! Invalid file. Try again.\n");
+				daysAgo = scanner.nextInt();
+				validDays = true;
+			} catch(InputMismatchException e) {
+				validDays = false;
+				scanner.next();
 			}
 		}
 
-		return fileText;
+		System.out.println("\nCompanies that have had no activity in the past " + daysAgo + " day(s)");
+		System.out.println("---------------------");
+		
+
+		for (String companyName : parsedCompanyList.keySet()) {
+			boolean wasActive = false;
+
+			for (String companyUrl : parsedCompanyList.get(companyName)) {
+				try {
+					wasActive = feedWasActive(companyUrl, daysAgo) ? true : wasActive;
+				} catch(SAXException e) {
+					e.printStackTrace();
+				} 
+			}
+
+			if (!wasActive) {
+				System.out.println("\nnot active: " + companyName);
+			} else {
+				System.out.println("\nactive: " + companyName);
+			}
+		}
 	}
 
-	public static void getRssData(String url) throws SAXException {
+	public static Map<String, List<String>> getCompanyListFromFile() 
+		throws IOException {
+
+		Scanner scanner;
+		String fileText = "";
+
+		CompanyListHandler handler = new CompanyListHandler();
+		XMLFetch xmlFetch;
+		
+		while (fileText == "") {
+			System.out.print("\nEnter file name with company and url data: ");
+			scanner = new Scanner(System.in);
+			String filename = scanner.nextLine();
+			try {
+				fileText = new String(Files.readAllBytes(Paths.get(filename)));
+				xmlFetch = new XMLFetch(XMLInputType.STRING, fileText, handler);
+			} catch(IOException e) {
+				System.err.println(ANSI_RED + "\nError! Invalid file name. Try again." + ANSI_RESET);
+			} catch(SAXException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return handler.getParsedCompanyList();
+	}
+
+	public static boolean feedWasActive(String url, int daysAgo) throws SAXException {
 		RssHandler handler = new RssHandler();
 		FeedActivity feed;
 
 		try {
 			XMLFetch xmlFetch = new XMLFetch(XMLInputType.URL, url, handler);
 			feed = new FeedActivity(handler.getFeed());
-			System.out.println("FEED WAS ACTIVE: " + feed.feedWasActive(3));
+			return feed.feedWasActive(daysAgo);
 		} catch(SAXException e) {
 			e.printStackTrace();
 		}
+
+		return false;
 	}
 }
