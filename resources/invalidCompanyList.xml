@@ -1,0 +1,10 @@
+<listt>
+	<company name="test">
+		<url>https://www.nytimes.com/svc/collections/v1/publish/www.nytimes.com/section/well/rss.xml</url>
+		<url>https://dianerehm.org/rss/npr/dr_podcast.xml</url>
+	</company>
+
+	<company name="sample">
+		<url>https://www.feedforall.com/sample.xml</url>
+	</company>
+</listt>

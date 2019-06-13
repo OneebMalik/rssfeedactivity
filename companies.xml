@@ -1,0 +1,13 @@
+<list>
+	<company name="NYTimes">
+		<url>https://atwar.blogs.nytimes.com/feed/</url> <!-- This feed hasn't been updated since 2017 (612 days as of June 13, 2019) -->
+	</company>
+
+	<company name="FeedForAll"> <!-- Not active since 2004 (5350 days as of June 13 2019) -->
+		<url>https://www.feedforall.com/sample.xml</url>
+	</company>
+
+	<company name="NPR"> <!-- Published/active once a week -->
+		<url>https://www.npr.org/rss/podcast.php?id=510298</url>
+	</company>
+</list>

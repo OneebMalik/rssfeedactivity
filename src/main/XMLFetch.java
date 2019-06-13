@@ -16,46 +16,57 @@ public class XMLFetch {
     private XMLReader reader;
     private SAXParserFactory saxParserFactory;
 
-    // Constructor for getting XML data by url.
-    public XMLFetch(XMLInputType inputType, String xmlSource, DefaultHandler handler) throws SAXException {
+    /*
+     * Get valid XML data to pass to a handler.
+     * Route to the appropriate function based on type of XML input source.
+     */
+    public XMLFetch(XMLInputType inputType, String xmlSource, DefaultHandler handler) 
+        throws SAXException, ParserConfigurationException, MalformedURLException,
+            IOException {
+
         try {
             saxParserFactory = SAXParserFactory.newInstance();
             SAXParser parser = saxParserFactory.newSAXParser();
             this.reader = parser.getXMLReader();
-        } catch(SAXException e) {
-            e.printStackTrace();
-        } catch(ParserConfigurationException e) {
-            e.printStackTrace();
+        } catch(Exception e) {
+            throw e;
         }
 
-        switch(inputType) {
-            case URL:
-                getXMLByUrl(xmlSource, handler);
-                break;
-            case STRING:
-                getXMLByString(xmlSource, handler);
+        try {
+            switch(inputType) {
+                case URL:
+                    getXMLByURL(xmlSource, handler);
+                    break;
+                case STRING:
+                    getXMLByString(xmlSource, handler);
+            }
+        } catch(Exception e) {
+            throw e;
         }
     }
 
-    public void getXMLByUrl(String url, DefaultHandler handler) throws SAXException {
+    public void getXMLByURL(String URL, DefaultHandler handler) 
+        throws SAXException, MalformedURLException, IOException {
+
         try {
             this.reader.setContentHandler(handler);
-            this.reader.parse(new InputSource(new URL(url).openStream()));
-        } catch(SAXException e) {
-            e.printStackTrace();
-        } catch(MalformedURLException e) {
-            e.printStackTrace();
-        } catch(IOException e) {
-            e.printStackTrace();
+            this.reader.parse(new InputSource(new URL(URL).openStream()));
+        } catch(Exception e) {
+            throw e;
         }
     }
 
-    public void getXMLByString(String rawXML, DefaultHandler handler) throws SAXException {
+    public void getXMLByString(String rawXML, DefaultHandler handler)
+        throws SAXException, IOException {
+
         this.reader.setContentHandler(handler);
+        
         try {
             this.reader.parse(new InputSource(new StringReader(rawXML)));
         } catch(IOException e) {
-            e.printStackTrace();
+            throw e;
+        } catch(SAXException e) {
+            throw e;
         }
     }
 }

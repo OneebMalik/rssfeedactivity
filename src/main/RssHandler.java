@@ -19,6 +19,7 @@ public class RssHandler extends DefaultHandler {
     private Feed feed;
     private String currentElement;
     private String currentValue;
+    private boolean isRssV2 = false;
  
     @Override
     public void startDocument() throws SAXException {
@@ -30,6 +31,10 @@ public class RssHandler extends DefaultHandler {
         Attributes attributes) throws SAXException {
 
         qName = qName.toLowerCase();
+
+        if (qName.equals("rss") && attributes.getValue("version").equals("2.0")) {
+            isRssV2 = true;
+        }
 
         if (qName.equals("title") || qName.equals("link") || qName.equals("description") 
             || qName.equals("lastbuilddate") || qName.equals("pubdate")) {
@@ -96,6 +101,6 @@ public class RssHandler extends DefaultHandler {
     }
 
     public Feed getFeed() {
-        return this.feed;
+        return isRssV2 ? this.feed : null;
     }
 }

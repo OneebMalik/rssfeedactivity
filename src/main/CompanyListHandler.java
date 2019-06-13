@@ -12,7 +12,7 @@ import org.xml.sax.helpers.DefaultHandler;
 public class CompanyListHandler extends DefaultHandler {
 
     private Map<String, List<String>> parsedCompanyList;
-    private List<String> companyUrls;
+    private List<String> companyURLs;
 
     private String currentCompany;
     private String currentElement;
@@ -24,19 +24,17 @@ public class CompanyListHandler extends DefaultHandler {
         if (qName.equals("list")) {
             this.currentElement = "list";
             this.parsedCompanyList = new HashMap<String, List<String>>();
-        }
-        
-        if (qName.equals("company")) {
+        } else if (qName.equals("company")) {
             this.currentElement = "company";
             this.currentCompany = attributes.getValue(0);
 
-            this.companyUrls = new ArrayList<String>();
+            this.companyURLs = new ArrayList<String>();
 
-            this.parsedCompanyList.put(this.currentCompany, this.companyUrls);
-        }
-
-        if (qName.equals("url")) {
+            this.parsedCompanyList.put(this.currentCompany, this.companyURLs);
+        } else if (qName.equals("url")) {
             this.currentElement = "url";
+        } else {
+            throw new SAXException();
         }
     }
 
@@ -47,7 +45,7 @@ public class CompanyListHandler extends DefaultHandler {
         String value = new String(ch, start, length).trim();
 
         if (this.currentElement.equals("url")) {
-            this.companyUrls.add(value);
+            this.companyURLs.add(value);
         } 
     }
 
