@@ -20,7 +20,7 @@ Rss Feed Activity
 1. The input file must be a well-formed XML file.
 2. The root element should be `<list>`.
 3. Within `<list>`, you can have multiple `<company name="">` elements with a string name attribute.
-4. Further, each `<company>` elements can have multiple `<url>` elements with valid URLs.
+4. Furthermore, each `<company>` elements can have multiple `<url>` elements with valid URLs.
 
 ### Assumptions
 1. The company RSS feed is RSS version 2.0 as stated in the `<rss>` element.
